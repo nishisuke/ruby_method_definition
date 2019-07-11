@@ -4,8 +4,9 @@ require 'method_definition/parser'
 
 module MethodDefinition
   class Source
-    def initialize(path, parser = Parser.new)
+    def initialize(path, reader = File, parser = Parser.new)
       @path = path
+      @reader = reader
       @parser = parser
     end
 
@@ -20,10 +21,10 @@ module MethodDefinition
 
     private
 
-    attr_reader :path, :parser
+    attr_reader :path, :reader, :parser
 
     def lines
-      @lines ||= File.readlines(path)
+      @lines ||= reader.readlines(path)
     end
 
     def snip(range)
